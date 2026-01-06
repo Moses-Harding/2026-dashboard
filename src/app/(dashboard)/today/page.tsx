@@ -16,6 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { WeightChart } from '@/components/charts/weight-chart'
 import { WeightForm } from '@/components/forms/weight-form'
 import { StatCard } from '@/components/dashboard/stat-card'
+import { SyncStatus } from '@/components/dashboard/sync-status'
 
 export default async function TodayPage() {
   const supabase = await createClient()
@@ -107,6 +108,9 @@ export default async function TodayPage() {
       <div>
         <h1 className="text-2xl font-bold">Today</h1>
         <p className="text-muted-foreground">{todayFormatted}</p>
+        <div className="mt-2">
+          <SyncStatus userId={user.id} />
+        </div>
       </div>
 
       {/* Stats Grid */}

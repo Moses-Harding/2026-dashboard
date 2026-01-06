@@ -83,6 +83,96 @@ export interface MilestoneUpdate {
 }
 
 // ============================================
+// STEPS LOGS
+// ============================================
+
+export interface StepsLog {
+  id: string // UUID
+  user_id: string // UUID
+  date: string // 'YYYY-MM-DD' format
+  steps: number // e.g., 10000
+  source: 'manual' | 'apple_health' | 'api'
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+}
+
+export interface StepsLogInsert {
+  user_id: string
+  date: string
+  steps: number
+  source?: 'manual' | 'apple_health' | 'api'
+}
+
+export interface StepsLogUpdate {
+  date?: string
+  steps?: number
+  source?: 'manual' | 'apple_health' | 'api'
+}
+
+// ============================================
+// SLEEP LOGS
+// ============================================
+
+export interface SleepLog {
+  id: string // UUID
+  user_id: string // UUID
+  date: string // 'YYYY-MM-DD' format
+  hours: number // e.g., 7.50
+  source: 'manual' | 'apple_health' | 'api'
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+}
+
+export interface SleepLogInsert {
+  user_id: string
+  date: string
+  hours: number
+  source?: 'manual' | 'apple_health' | 'api'
+}
+
+export interface SleepLogUpdate {
+  date?: string
+  hours?: number
+  source?: 'manual' | 'apple_health' | 'api'
+}
+
+// ============================================
+// NUTRITION LOGS
+// ============================================
+
+export interface NutritionLog {
+  id: string // UUID
+  user_id: string // UUID
+  date: string // 'YYYY-MM-DD' format
+  calories: number | null // e.g., 2000
+  protein: number | null // e.g., 180.50 grams
+  carbs: number | null // e.g., 200.00 grams
+  fat: number | null // e.g., 60.50 grams
+  source: 'manual' | 'apple_health' | 'loseit' | 'api'
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+}
+
+export interface NutritionLogInsert {
+  user_id: string
+  date: string
+  calories?: number
+  protein?: number
+  carbs?: number
+  fat?: number
+  source?: 'manual' | 'apple_health' | 'loseit' | 'api'
+}
+
+export interface NutritionLogUpdate {
+  date?: string
+  calories?: number
+  protein?: number
+  carbs?: number
+  fat?: number
+  source?: 'manual' | 'apple_health' | 'loseit' | 'api'
+}
+
+// ============================================
 // USER (from Supabase Auth)
 // ============================================
 

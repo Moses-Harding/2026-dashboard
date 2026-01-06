@@ -21,6 +21,7 @@ const navItems = [
   { href: '/month', label: 'Month', icon: '📅' },
   { href: '/quarter', label: 'Quarter', icon: '🎯' },
   { href: '/review', label: 'Review', icon: '📝' },
+  { href: '/settings', label: 'Settings', icon: '⚙️' },
 ]
 
 export default async function DashboardLayout({
