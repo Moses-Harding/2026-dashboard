@@ -1,16 +1,30 @@
 /**
  * Home Page
  *
- * This is the landing page at '/'.
- * Eventually this will redirect to /login or /today based on auth state.
- * For now, it's a simple welcome page to verify our setup.
+ * Landing page that redirects based on auth state:
+ * - Authenticated users → /today
+ * - Unauthenticated users → Show welcome page with login/signup
+ *
+ * This is a Server Component (no 'use client'), so we can check auth on the server.
  */
 
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import Link from 'next/link'
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Check auth state on server
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // If logged in, redirect to dashboard
+  if (user) {
+    redirect('/today')
+  }
+
+  // Show welcome page for unauthenticated users
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
