@@ -4,6 +4,79 @@
 
 ---
 
+## 2026-01-07: Phase 5 Complete - Milestones & Weekly Review
+
+**Summary**: Implemented milestone tracking system with monthly weight and lifting targets, weekly review dashboard, and achievement celebrations.
+
+**Changes**:
+- Created database schema: `milestones`, `weekly_reviews`, `achievements` tables with RLS policies
+- Built MilestoneCard component showing current month's progress with weight and lifting targets
+- Created MilestoneSeed component to initialize 2026 fitness plan with monthly targets
+- Built AchievementsList component for displaying earned achievements
+- Implemented Confetti celebration component with CSS animations
+- Created CelebrationProvider context for app-wide achievement animations
+- Built Weekly Review page (/review) with auto-generated weekly summary stats
+- Created WeeklyReviewForm component for reflection text inputs
+- Implemented /api/milestones endpoint (GET/POST/PATCH) for milestone management
+- Implemented /api/reviews endpoint (GET/POST) for weekly review management
+- Integrated milestone and achievement indicators into Today dashboard
+- Updated database types to match new schema
+
+**Files Added**:
+- `supabase/migrations/005_milestones_reviews.sql`
+- `src/app/api/milestones/route.ts`
+- `src/app/api/reviews/route.ts`
+- `src/app/(dashboard)/review/page.tsx`
+- `src/components/dashboard/milestone-card.tsx`
+- `src/components/dashboard/milestone-seed.tsx`
+- `src/components/dashboard/achievements-list.tsx`
+- `src/components/forms/weekly-review-form.tsx`
+- `src/components/ui/confetti.tsx`
+- `src/components/providers/celebration-provider.tsx`
+
+**Technical Decisions**:
+- Used JSONB columns for flexible lifting target storage
+- Linear progression formula for monthly lifting targets (12 months from start to 2026 goal)
+- Lightweight CSS confetti animation instead of external libraries
+- Weekly Review page fetches data in parallel for performance
+- Sunday weekly review with auto-populated stats from the week
+
+**Status**: ✅ Phase 5 Complete - Ready for Phase 6
+
+---
+
+## 2026-01-07: Phase 4 Complete - Multi-Timeframe Views
+
+**Summary**: Added sidebar navigation and multi-timeframe views for weekly, monthly, and quarterly data analysis.
+
+**Changes**:
+- Created sidebar navigation component with active state highlighting
+- Added mobile bottom navigation for responsive design
+- Built Weekly Trends page (/week) with weight and habit analysis
+- Built Monthly Progress page (/month) with lifting progression charts
+- Built Quarterly Checkpoints page (/quarter) with year-progress visualization
+- Created date utility functions for week/month/quarter calculations
+- Fixed timezone issues across all pages (use America/New_York consistently)
+- Added loading skeleton component for smooth page navigation
+
+**Files Added**:
+- `src/components/dashboard/sidebar-nav.tsx`
+- `src/app/(dashboard)/loading.tsx`
+- `src/app/(dashboard)/week/page.tsx`
+- `src/app/(dashboard)/month/page.tsx`
+- `src/app/(dashboard)/quarter/page.tsx`
+- `src/lib/utils/dates.ts`
+
+**Technical Decisions**:
+- Timezone-aware date handling with getNow() function using America/New_York
+- Parallel data fetching for dashboard performance across all views
+- Loading skeleton improves perceived performance during navigation
+- Mobile-first responsive design with grid layout adjustments
+
+**Status**: ✅ Phase 4 Complete
+
+---
+
 ## 2026-01-07: Phase 3 Complete - Workouts & Habits Tracking
 
 **Summary**: Implemented complete workout logging system with exercise-level detail, habit tracking, and progression visualization.
