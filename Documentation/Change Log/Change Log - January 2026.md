@@ -4,6 +4,50 @@
 
 ---
 
+## 2026-01-07: Phase 6 Complete - Performance & Caching
+
+**Summary**: Implemented shared data fetching in dashboard layout for instant page navigation between views.
+
+**Changes**:
+- Created DashboardProvider context to share data across all dashboard pages
+- Moved common data fetching from individual pages to dashboard layout
+- Fetches weight logs (90 days), habit logs, workouts, milestones, and achievements once on layout render
+- Created client components (TodayContent, WeekContent) that use shared context data
+- Pages now only fetch page-specific data (steps/sleep, nutrition logs)
+- Added RefreshButton component for manual data refresh with router.refresh()
+- Exported helper hooks: useWeightLogs, useHabitLogs, useWorkouts, useMilestone, useAchievements
+- Added optional hook useDashboardOptional for pages outside dashboard context
+
+**Files Added**:
+- `src/components/providers/dashboard-provider.tsx`
+- `src/components/pages/today-content.tsx`
+- `src/components/pages/week-content.tsx`
+- `src/components/dashboard/refresh-button.tsx`
+
+**Files Modified**:
+- `src/app/(dashboard)/layout.tsx` - Added data fetching and DashboardProvider wrapper
+- `src/app/(dashboard)/today/page.tsx` - Refactored to use TodayContent client component
+- `src/app/(dashboard)/week/page.tsx` - Refactored to use WeekContent client component
+
+**Technical Decisions**:
+- Fetch weight logs 90 days back to cover all timeframe views (daily, weekly, monthly, quarterly)
+- Transform workouts array to ensure exercise_sets is always an array (not undefined)
+- Use React Context for client-side state (data + isRefreshing)
+- Separate concerns: Server fetches in layout, client components consume context
+- Month/Quarter pages still fetch their own extended data ranges (not in context yet)
+- RefreshButton uses router.refresh() to re-run server data fetching
+
+**Benefits**:
+- Navigation between Today and Week pages is now instant (data already loaded)
+- Reduced database queries - shared data fetched once per layout render
+- Pages share the same data source preventing inconsistencies
+- Manual refresh capability for users who want latest data
+- Foundation for future real-time subscriptions via Supabase
+
+**Status**: ✅ Phase 6 Complete - Ready for Phase 7 (Polish)
+
+---
+
 ## 2026-01-07: Phase 5 Complete - Milestones & Weekly Review
 
 **Summary**: Implemented milestone tracking system with monthly weight and lifting targets, weekly review dashboard, and achievement celebrations.
