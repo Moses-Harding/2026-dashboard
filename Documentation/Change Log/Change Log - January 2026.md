@@ -4,6 +4,30 @@
 
 ---
 
+## 2026-01-07: Apple Health Workout Import
+
+**Summary**: Added workout import support to iOS Shortcuts sync endpoint.
+
+**Changes**:
+- Extended `/api/shortcuts/sync` endpoint to accept workout data from Apple Health
+- Added Apple Health workout type mapping (Strength Training → scheduled type, Cardio types → cardio, etc.)
+- Strength training workouts automatically map to scheduled workout type based on day (Mon=Chest, Wed=Shoulders, Fri=Volume)
+- Workout duration and calories stored, original Apple Health type saved in notes
+- Updated Settings page with workout sync instructions
+
+**Files Modified**:
+- `src/app/api/shortcuts/sync/route.ts` - Added workout schema fields, mapping function, and save logic
+- `src/app/(dashboard)/settings/page.tsx` - Added workout sync instructions
+
+**New API Fields**:
+- `workout_type` - Apple Health workout type string (e.g., "Traditional Strength Training")
+- `workout_duration` - Duration in minutes
+- `workout_calories` - Active calories burned
+
+**Status**: Feature Complete
+
+---
+
 ## 2026-01-07: Phase 7 Started - Polish
 
 **Summary**: Started Phase 7 polish work with mobile responsiveness review and bug fix.

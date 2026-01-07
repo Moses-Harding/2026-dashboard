@@ -7,7 +7,7 @@
  * Accepts all health data types in a single request.
  *
  * Usage from Shortcuts:
- * 1. Get health samples (weight, steps, sleep)
+ * 1. Get health samples (weight, steps, sleep, workouts)
  * 2. POST to this endpoint with Authorization header
  *
  * Example payload:
@@ -17,6 +17,9 @@
  *   "sleep": 7.5,
  *   "calories": 1800,
  *   "protein": 150,
+ *   "workout_type": "Traditional Strength Training",
+ *   "workout_duration": 45,
+ *   "workout_calories": 350,
  *   "date": "2026-01-06"  // optional, defaults to today
  * }
  */
@@ -25,6 +28,67 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { verifyApiKey } from '@/lib/auth/api-key'
 import { z } from 'zod'
+import type { WorkoutType } from '@/types/database'
+import { WEEKLY_SCHEDULE } from '@/lib/constants/workouts'
+
+// ============================================
+// APPLE HEALTH WORKOUT TYPE MAPPING
+// ============================================
+
+// Map Apple Health workout types to app workout types
+// null means "use scheduled workout type for strength training"
+const APPLE_HEALTH_WORKOUT_MAP: Record<string, WorkoutType | null> = {
+  // Strength training - use scheduled type
+  'Traditional Strength Training': null,
+  'Functional Strength Training': null,
+  'High Intensity Interval Training': null,
+  'Core Training': null,
+
+  // Cardio
+  'Elliptical': 'cardio',
+  'Running': 'cardio',
+  'Cycling': 'cardio',
+  'Indoor Cycling': 'cardio',
+  'Rowing': 'cardio',
+  'Stair Climbing': 'cardio',
+  'Jump Rope': 'cardio',
+  'Swimming': 'cardio',
+  'Dance': 'cardio',
+
+  // Active rest / light activity
+  'Walking': 'active_rest',
+  'Hiking': 'active_rest',
+  'Yoga': 'active_rest',
+  'Pilates': 'active_rest',
+  'Stretching': 'active_rest',
+  'Flexibility': 'active_rest',
+  'Cooldown': 'active_rest',
+}
+
+/**
+ * Maps Apple Health workout type to app workout type
+ * For strength training, uses the scheduled workout for that day
+ */
+function mapAppleHealthWorkout(appleHealthType: string, date: string): WorkoutType {
+  const mappedType = APPLE_HEALTH_WORKOUT_MAP[appleHealthType]
+
+  // If we have a direct mapping, use it
+  if (mappedType !== null && mappedType !== undefined) {
+    return mappedType
+  }
+
+  // For strength training (null mapping), use scheduled workout type
+  const dateObj = new Date(date + 'T12:00:00') // Use noon to avoid timezone issues
+  const dayOfWeek = dateObj.getDay()
+  const scheduledType = WEEKLY_SCHEDULE[dayOfWeek]
+
+  // If scheduled type is 'rest', default to 'volume'
+  if (scheduledType === 'rest') {
+    return 'volume'
+  }
+
+  return scheduledType
+}
 
 // Simple schema for Shortcuts - all fields optional except at least one data point
 const shortcutsSyncSchema = z.object({
@@ -35,10 +99,14 @@ const shortcutsSyncSchema = z.object({
   protein: z.number().min(0).max(1000).optional(),
   carbs: z.number().min(0).max(2000).optional(),
   fat: z.number().min(0).max(1000).optional(),
+  // Workout fields from Apple Health
+  workout_type: z.string().optional(),  // Apple Health workout type string
+  workout_duration: z.number().min(0).max(600).optional(),  // minutes (up to 10 hours)
+  workout_calories: z.number().min(0).max(10000).optional(), // active calories
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 }).refine(
-  (data) => data.weight || data.steps || data.sleep || data.calories || data.protein,
-  { message: 'At least one health metric is required' }
+  (data) => data.weight || data.steps || data.sleep || data.calories || data.protein || data.workout_type,
+  { message: 'At least one health metric or workout is required' }
 )
 
 export async function POST(request: NextRequest) {
@@ -174,6 +242,35 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Save workout (if workout type provided from Apple Health)
+    if (data.workout_type !== undefined) {
+      // Map Apple Health workout type to app workout type
+      const appWorkoutType = mapAppleHealthWorkout(data.workout_type, date)
+
+      // Build notes with Apple Health info
+      const noteParts: string[] = [`Apple Health: ${data.workout_type}`]
+      if (data.workout_calories) {
+        noteParts.push(`${data.workout_calories} kcal`)
+      }
+
+      const { error } = await supabase.from('workouts').upsert(
+        {
+          user_id: userId,
+          date,
+          workout_type: appWorkoutType,
+          completed: true,
+          duration_minutes: data.workout_duration ?? null,
+          notes: noteParts.join(' • '),
+        },
+        { onConflict: 'user_id,date,workout_type' }
+      )
+      if (error) {
+        results.errors.push(`workout: ${error.message}`)
+      } else {
+        results.saved.push(`workout (${appWorkoutType})`)
+      }
+    }
+
     // Return results
     const success = results.errors.length === 0
 
@@ -207,8 +304,12 @@ export async function GET() {
       sleep: 7.5,
       calories: 1800,
       protein: 150,
+      workout_type: 'Traditional Strength Training',
+      workout_duration: 45,
+      workout_calories: 350,
       date: '2026-01-06',
     },
-    note: 'All fields optional except at least one metric. Date defaults to today.',
+    note: 'All fields optional except at least one metric or workout. Date defaults to today.',
+    workout_types: 'Strength training uses scheduled type (Mon=Chest, Wed=Shoulders, Fri=Volume). Cardio/walking map directly.',
   })
 }

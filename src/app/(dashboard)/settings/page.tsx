@@ -167,13 +167,34 @@ export default async function SettingsPage() {
               </p>
             </div>
 
+            {/* Workout Sync */}
+            <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <p className="font-medium text-green-600 dark:text-green-400 mb-2">Workout Sync</p>
+              <p className="text-xs text-muted-foreground mb-2">
+                You can also sync workouts from Apple Health! Add these actions to your shortcut:
+              </p>
+              <div className="space-y-2 text-xs text-muted-foreground">
+                <p><strong>Find Health Samples:</strong> Type: Workouts, Start Date: Today, Limit: 1</p>
+                <p><strong>Set Variables:</strong></p>
+                <ul className="ml-3 space-y-1">
+                  <li>• workout_type = Health Sample.Workout Activity Type</li>
+                  <li>• workout_duration = Health Sample.Duration (in minutes)</li>
+                  <li>• workout_calories = Health Sample.Active Energy Burned</li>
+                </ul>
+                <p className="mt-2">
+                  <strong>How it maps:</strong> Strength training uses your scheduled type (Mon=Chest, Wed=Shoulders, Fri=Volume).
+                  Elliptical/Running/Cycling → Cardio. Walking/Yoga → Active Rest.
+                </p>
+              </div>
+            </div>
+
             {/* Tips */}
             <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
               <p className="font-medium text-blue-600 dark:text-blue-400 mb-1">Tips</p>
               <ul className="text-xs text-muted-foreground space-y-1">
                 <li>• You can add sleep data by adding another &quot;Find Health Samples&quot; for Sleep Analysis</li>
                 <li>• For nutrition, add searches for Dietary Energy, Protein, Carbohydrates, Total Fat</li>
-                <li>• The API accepts: weight, steps, sleep, calories, protein, carbs, fat</li>
+                <li>• The API accepts: weight, steps, sleep, calories, protein, carbs, fat, workout_type, workout_duration, workout_calories</li>
                 <li>• Date defaults to today if not specified</li>
               </ul>
             </div>
