@@ -22,7 +22,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/service'
 import { verifyApiKey } from '@/lib/auth/api-key'
 import { z } from 'zod'
 
@@ -91,8 +91,8 @@ export async function POST(request: NextRequest) {
     const data = validation.data
     const date = data.date || new Date().toISOString().split('T')[0]
 
-    // Create Supabase client
-    const supabase = await createClient()
+    // Create Supabase service client (bypasses RLS since we verified via API key)
+    const supabase = createServiceClient()
 
     const results: { saved: string[]; errors: string[] } = {
       saved: [],
