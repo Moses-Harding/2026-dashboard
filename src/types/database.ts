@@ -37,50 +37,6 @@ export interface WeightLogUpdate {
   source?: 'manual' | 'apple_health' | 'api'
 }
 
-// ============================================
-// MILESTONES
-// ============================================
-
-// Target lifts stored as JSON
-export interface TargetLifts {
-  flat_db_press?: number
-  incline_db_press?: number
-  skull_crushers?: number
-  lateral_raises?: number
-  rear_delt_flyes?: number
-  curls?: number
-  hammer_curls?: number
-  [key: string]: number | undefined // Allow custom exercises
-}
-
-export interface Milestone {
-  id: string // UUID
-  user_id: string // UUID
-  month: number // 1-12
-  year: number // e.g., 2026
-  target_weight: number | null // e.g., 214.00
-  target_lifts: TargetLifts
-  notes: string | null
-  created_at: string // ISO timestamp
-  updated_at: string // ISO timestamp
-}
-
-// For creating a new milestone
-export interface MilestoneInsert {
-  user_id: string
-  month: number
-  year: number
-  target_weight?: number
-  target_lifts?: TargetLifts
-  notes?: string
-}
-
-// For updating a milestone
-export interface MilestoneUpdate {
-  target_weight?: number
-  target_lifts?: TargetLifts
-  notes?: string
-}
 
 // ============================================
 // STEPS LOGS
@@ -265,6 +221,113 @@ export interface HabitLogUpdate {
   creatine?: boolean
   sleep_hours?: number
   steps?: number
+}
+
+// ============================================
+// MILESTONES
+// ============================================
+
+export interface TargetLiftsMap {
+  [exerciseId: string]: number // exercise_id -> target weight
+}
+
+export interface AchievedLiftsMap {
+  [exerciseId: string]: boolean // exercise_id -> achieved
+}
+
+export interface Milestone {
+  id: string
+  user_id: string
+  month: number // 1-12
+  year: number
+  target_weight: number | null
+  target_lifts: TargetLiftsMap
+  achieved_weight: boolean
+  achieved_lifts: AchievedLiftsMap
+  created_at: string
+  updated_at: string
+}
+
+export interface MilestoneInsert {
+  user_id: string
+  month: number
+  year?: number
+  target_weight?: number
+  target_lifts?: TargetLiftsMap
+}
+
+export interface MilestoneUpdate {
+  target_weight?: number
+  target_lifts?: TargetLiftsMap
+  achieved_weight?: boolean
+  achieved_lifts?: AchievedLiftsMap
+}
+
+// ============================================
+// WEEKLY REVIEWS
+// ============================================
+
+export interface WeeklyReview {
+  id: string
+  user_id: string
+  week_start_date: string // Sunday of the week
+  weight_avg: number | null
+  workouts_completed: number
+  workouts_target: number
+  habits_completed: number
+  habits_total: number
+  went_well: string | null
+  needs_adjustment: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface WeeklyReviewInsert {
+  user_id: string
+  week_start_date: string
+  weight_avg?: number
+  workouts_completed?: number
+  workouts_target?: number
+  habits_completed?: number
+  habits_total?: number
+  went_well?: string
+  needs_adjustment?: string
+}
+
+export interface WeeklyReviewUpdate {
+  weight_avg?: number
+  workouts_completed?: number
+  habits_completed?: number
+  habits_total?: number
+  went_well?: string
+  needs_adjustment?: string
+}
+
+// ============================================
+// ACHIEVEMENTS
+// ============================================
+
+export type AchievementType =
+  | 'monthly_weight_target'
+  | 'monthly_lift_target'
+  | 'workout_streak'
+  | 'habit_streak'
+  | 'personal_record'
+
+export interface Achievement {
+  id: string
+  user_id: string
+  type: AchievementType
+  title: string // Display title for the achievement
+  achieved_at: string
+  metadata: Record<string, unknown> | null
+}
+
+export interface AchievementInsert {
+  user_id: string
+  type: AchievementType
+  title: string
+  metadata?: Record<string, unknown>
 }
 
 // ============================================

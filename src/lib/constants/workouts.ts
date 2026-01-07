@@ -72,6 +72,7 @@ export interface ExerciseDefinition {
   category: 'chest' | 'triceps' | 'shoulders' | 'biceps' | 'compound' | 'cardio'
   defaultSets: number
   defaultReps: number
+  startWeight?: number // Starting weight at beginning of 2026
   targetWeight2026?: number // Year-end target weight in lbs
 }
 
@@ -83,6 +84,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'chest',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 45,
     targetWeight2026: 65,
   },
   incline_db_press: {
@@ -91,6 +93,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'chest',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 35,
     targetWeight2026: 55,
   },
   cable_flyes: {
@@ -99,6 +102,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'chest',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 20,
     targetWeight2026: 30,
   },
 
@@ -109,6 +113,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'triceps',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 25,
     targetWeight2026: 40,
   },
   tricep_pushdowns: {
@@ -117,6 +122,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'triceps',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 35,
     targetWeight2026: 50,
   },
   overhead_tricep: {
@@ -125,6 +131,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'triceps',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 25,
     targetWeight2026: 35,
   },
 
@@ -135,6 +142,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'shoulders',
     defaultSets: 4,
     defaultReps: 12,
+    startWeight: 15,
     targetWeight2026: 25,
   },
   rear_delt_flyes: {
@@ -143,6 +151,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'shoulders',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 12,
     targetWeight2026: 20,
   },
   shoulder_press: {
@@ -151,6 +160,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'shoulders',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 30,
     targetWeight2026: 45,
   },
   front_raises: {
@@ -159,6 +169,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'shoulders',
     defaultSets: 3,
     defaultReps: 12,
+    startWeight: 12,
     targetWeight2026: 20,
   },
 
@@ -169,6 +180,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'biceps',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 25,
     targetWeight2026: 40,
   },
   hammer_curls: {
@@ -177,6 +189,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'biceps',
     defaultSets: 3,
     defaultReps: 10,
+    startWeight: 20,
     targetWeight2026: 35,
   },
   preacher_curls: {
@@ -185,6 +198,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'biceps',
     defaultSets: 3,
     defaultReps: 10,
+    startWeight: 20,
     targetWeight2026: 30,
   },
 
@@ -195,6 +209,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'compound',
     defaultSets: 4,
     defaultReps: 8,
+    startWeight: 135,
     targetWeight2026: 185,
   },
   rows: {
@@ -203,6 +218,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'compound',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 40,
     targetWeight2026: 60,
   },
   lat_pulldown: {
@@ -211,6 +227,7 @@ export const EXERCISES: Record<string, ExerciseDefinition> = {
     category: 'compound',
     defaultSets: 4,
     defaultReps: 10,
+    startWeight: 100,
     targetWeight2026: 140,
   },
 }

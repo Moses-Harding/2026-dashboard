@@ -23,6 +23,9 @@ import { StatCard } from '@/components/dashboard/stat-card'
 import { SyncStatus } from '@/components/dashboard/sync-status'
 import { HabitHeatmap } from '@/components/dashboard/habit-heatmap'
 import { WorkoutHistory } from '@/components/dashboard/workout-history'
+import { MilestoneCard } from '@/components/dashboard/milestone-card'
+import { MilestoneSeed } from '@/components/dashboard/milestone-seed'
+import { AchievementsList } from '@/components/dashboard/achievements-list'
 import { getTodaysWorkout, WORKOUT_TYPES } from '@/lib/constants/workouts'
 import { getNow, formatDateISO } from '@/lib/utils/dates'
 import type { WorkoutType } from '@/types/database'
@@ -43,6 +46,10 @@ export default async function TodayPage() {
   const sevenDaysAgo = new Date(now)
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
+  // Get current month for milestone lookup
+  const currentMonth = now.getMonth() + 1
+  const currentYear = now.getFullYear()
+
   // Fetch all data in parallel
   const [
     weightLogsResult,
@@ -51,6 +58,8 @@ export default async function TodayPage() {
     workoutsResult,
     todayStepsResult,
     todaySleepResult,
+    milestoneResult,
+    achievementsResult,
   ] = await Promise.all([
     // Weight logs for last 30 days
     supabase
@@ -94,6 +103,21 @@ export default async function TodayPage() {
       .eq('user_id', user.id)
       .eq('date', today)
       .single(),
+    // Current month's milestone
+    supabase
+      .from('milestones')
+      .select('*')
+      .eq('user_id', user.id)
+      .eq('month', currentMonth)
+      .eq('year', currentYear)
+      .single(),
+    // Recent achievements
+    supabase
+      .from('achievements')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('achieved_at', { ascending: false })
+      .limit(5),
   ])
 
   const weightLogs = weightLogsResult.data ?? []
@@ -102,6 +126,8 @@ export default async function TodayPage() {
   const workouts = workoutsResult.data ?? []
   const todaySteps = todayStepsResult.data?.steps ?? null
   const todaySleep = todaySleepResult.data?.hours ?? null
+  const milestone = milestoneResult.data
+  const achievements = achievementsResult.data ?? []
 
   // Calculate weight statistics
   const todayWeightLog = weightLogs.find((log) => log.date === today)
@@ -117,8 +143,7 @@ export default async function TodayPage() {
   const yesterdayLog = weightLogs.find((log) => log.date === formatDateISO(yesterday))
   const weightChange = currentWeight && yesterdayLog ? currentWeight - yesterdayLog.weight : null
 
-  // Get targets
-  const currentMonth = now.getMonth() + 1
+  // Get targets (currentMonth already defined above)
   const monthlyTargets: Record<number, number> = {
     1: 218, 2: 216, 3: 214, 4: 212, 5: 210, 6: 208,
     7: 206, 8: 204, 9: 202, 10: 200, 11: 197, 12: 195,
@@ -339,6 +364,16 @@ export default async function TodayPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Milestones and Achievements */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {milestone ? (
+          <MilestoneCard milestone={milestone} currentWeight={currentWeight} />
+        ) : (
+          <MilestoneSeed year={currentYear} />
+        )}
+        <AchievementsList achievements={achievements} />
+      </div>
     </div>
   )
 }
