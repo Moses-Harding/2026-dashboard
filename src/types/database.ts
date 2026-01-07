@@ -173,6 +173,101 @@ export interface NutritionLogUpdate {
 }
 
 // ============================================
+// WORKOUTS
+// ============================================
+
+export type WorkoutType = 'chest_triceps' | 'shoulders_biceps' | 'volume' | 'cardio' | 'active_rest'
+
+export interface Workout {
+  id: string // UUID
+  user_id: string // UUID
+  date: string // 'YYYY-MM-DD' format
+  workout_type: WorkoutType
+  completed: boolean
+  duration_minutes: number | null
+  notes: string | null
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+}
+
+export interface WorkoutInsert {
+  user_id: string
+  date: string
+  workout_type: WorkoutType
+  completed?: boolean
+  duration_minutes?: number
+  notes?: string
+}
+
+export interface WorkoutUpdate {
+  completed?: boolean
+  duration_minutes?: number
+  notes?: string
+}
+
+// ============================================
+// EXERCISE SETS
+// ============================================
+
+export interface ExerciseSet {
+  id: string // UUID
+  workout_id: string // UUID
+  exercise_name: string
+  set_number: number
+  reps: number | null
+  weight: number | null // lbs
+  created_at: string // ISO timestamp
+}
+
+export interface ExerciseSetInsert {
+  workout_id: string
+  exercise_name: string
+  set_number: number
+  reps?: number
+  weight?: number
+}
+
+export interface ExerciseSetUpdate {
+  reps?: number
+  weight?: number
+}
+
+// ============================================
+// HABIT LOGS
+// ============================================
+
+export interface HabitLog {
+  id: string // UUID
+  user_id: string // UUID
+  date: string // 'YYYY-MM-DD' format
+  meditation: boolean
+  journal: boolean
+  creatine: boolean
+  sleep_hours: number | null
+  steps: number | null
+  created_at: string // ISO timestamp
+  updated_at: string // ISO timestamp
+}
+
+export interface HabitLogInsert {
+  user_id: string
+  date: string
+  meditation?: boolean
+  journal?: boolean
+  creatine?: boolean
+  sleep_hours?: number
+  steps?: number
+}
+
+export interface HabitLogUpdate {
+  meditation?: boolean
+  journal?: boolean
+  creatine?: boolean
+  sleep_hours?: number
+  steps?: number
+}
+
+// ============================================
 // USER (from Supabase Auth)
 // ============================================
 
