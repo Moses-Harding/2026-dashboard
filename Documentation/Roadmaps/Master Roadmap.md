@@ -22,9 +22,9 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 
 ## Current Phase
 
-**Phase**: Phase 4 - Multi-Timeframe Views
+**Phase**: Phase 5 - Milestones & Review
 **Status**: Ready to Start
-**Previous Phase Completed**: 2026-01-07 (Phase 3 - Workouts & Habits Tracking)
+**Previous Phase Completed**: 2026-01-07 (Phase 4 - Multi-Timeframe Views)
 
 ---
 
@@ -36,9 +36,10 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 | **Phase 1: MVP Setup** | Week 1-2 | ✅ Complete | Deployed app with login, dark mode, weight chart |
 | **Phase 2: Data Import** | Week 2-3 | ✅ Complete | iOS Shortcuts integration for automated Apple Health sync |
 | **Phase 3: Workouts & Habits** | Week 3-4 | ✅ Complete | Exercise tracking, habit checklist, progression charts |
-| **Phase 4: Multi-Timeframe** | Week 4-5 | ⏸️ Pending | Sidebar navigation, weekly/monthly/quarterly views |
+| **Phase 4: Multi-Timeframe** | Week 3-4 | ✅ Complete | Sidebar navigation, weekly/monthly/quarterly views |
 | **Phase 5: Milestones & Review** | Week 5-6 | ⏸️ Pending | Pre-loaded fitness plan, weekly review dashboard |
-| **Phase 6: Polish** | Week 6+ | ⏸️ Pending | Bug fixes, mobile testing, UX improvements |
+| **Phase 6: Performance & Caching** | Week 6 | ⏸️ Pending | Shared data fetching in layout, instant page navigation |
+| **Phase 7: Polish** | Week 6+ | ⏸️ Pending | Bug fixes, mobile testing, UX improvements |
 
 ---
 
@@ -119,6 +120,16 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 - [x] Build 7-day habit heatmap visualization
 - [x] Integrate all components into Today dashboard
 - [x] Implement parallel data fetching for dashboard performance
+
+### Phase 4: Multi-Timeframe Views ✅ (Completed 2026-01-07)
+- [x] Create sidebar navigation with active state highlighting
+- [x] Add mobile bottom navigation for small screens
+- [x] Build Weekly Trends page (/week)
+- [x] Build Monthly Progress page (/month)
+- [x] Build Quarterly Checkpoints page (/quarter)
+- [x] Add date utility functions for week/month/quarter calculations
+- [x] Fix timezone issues (use America/New_York)
+- [x] Add loading skeleton for smoother navigation
 
 ---
 

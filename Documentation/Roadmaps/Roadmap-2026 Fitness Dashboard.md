@@ -5,7 +5,7 @@
 **Started**: 2026-01-06
 **Type**: Full Application Roadmap
 **Target Launch**: MVP in 4-6 weeks
-**Current Phase**: Phase 4 - Multi-Timeframe Views
+**Current Phase**: Phase 5 - Milestones & Review
 
 ---
 
@@ -815,7 +815,36 @@ When this project is complete, you will be able to:
 
 ---
 
-### Phase 6: Polish & Testing (Week 6+)
+### Phase 6: Performance & Caching (Week 6)
+
+**Goals**: Eliminate page navigation latency by sharing data across dashboard pages.
+
+**Tasks**:
+1. **Shared Data Context**
+   - Create DashboardDataProvider context in layout
+   - Fetch common data once (weight logs, habit logs, workouts, nutrition)
+   - Pass data to child pages via React Context
+
+2. **Layout-Level Data Fetching**
+   - Move parallel data fetching from individual pages to layout
+   - Fetch data for configurable date range (e.g., last 90 days)
+   - Cache in context for instant access by all pages
+
+3. **Page Optimization**
+   - Update Today, Week, Month, Quarter pages to consume shared context
+   - Remove duplicate data fetching from individual pages
+   - Pages render instantly with pre-fetched data
+
+4. **Revalidation Strategy**
+   - Refresh data when user submits forms (weight, workout, habits)
+   - Optional: Add manual refresh button
+   - Consider time-based revalidation for stale data
+
+**Deliverable**: Instant page navigation with shared data layer.
+
+---
+
+### Phase 7: Polish & Testing (Week 6+)
 
 **Goals**: Fix bugs, improve UX, optimize performance.
 
