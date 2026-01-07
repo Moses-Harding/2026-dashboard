@@ -67,23 +67,23 @@ CREATE TRIGGER update_api_keys_updated_at
 CREATE OR REPLACE FUNCTION verify_api_key(key_to_verify TEXT)
 RETURNS UUID AS $$
 DECLARE
-  key_hash TEXT;
+  computed_hash TEXT;
   result_user_id UUID;
 BEGIN
   -- Hash the provided key (SHA-256)
-  key_hash := encode(digest(key_to_verify, 'sha256'), 'hex');
+  computed_hash := encode(digest(key_to_verify, 'sha256'), 'hex');
 
   -- Look up the key and get user_id
   SELECT user_id INTO result_user_id
   FROM api_keys
-  WHERE api_keys.key_hash = key_hash
+  WHERE key_hash = computed_hash
     AND is_active = true;
 
   -- Update last_used_at if found
   IF result_user_id IS NOT NULL THEN
     UPDATE api_keys
     SET last_used_at = NOW()
-    WHERE api_keys.key_hash = key_hash;
+    WHERE key_hash = computed_hash;
   END IF;
 
   RETURN result_user_id;
