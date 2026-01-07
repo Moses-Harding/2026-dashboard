@@ -136,17 +136,17 @@ export function HabitChecklist({
       </div>
 
       {/* Auto-imported data */}
-      {(sleepHours !== null || steps !== null) && (
+      {(sleepHours != null || steps != null) && (
         <div className="pt-3 border-t border-border">
           <p className="text-xs text-muted-foreground mb-2">Auto-imported</p>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            {sleepHours !== null && (
+            {sleepHours != null && (
               <div className="flex items-center gap-2">
                 <span>😴</span>
                 <span>{sleepHours.toFixed(1)}h sleep</span>
               </div>
             )}
-            {steps !== null && (
+            {steps != null && (
               <div className="flex items-center gap-2">
                 <span>👟</span>
                 <span>{steps.toLocaleString()} steps</span>
