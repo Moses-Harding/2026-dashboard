@@ -5,7 +5,7 @@
 **Started**: 2026-01-06
 **Type**: Full Application Roadmap
 **Target Launch**: MVP in 4-6 weeks
-**Current Phase**: Phase 3 - Workouts & Habits Tracking
+**Current Phase**: Phase 4 - Multi-Timeframe Views
 
 ---
 
@@ -647,50 +647,67 @@ When this project is complete, you will be able to:
 
 ---
 
-### Phase 3: Workouts & Habits Tracking (Week 3-4)
+### Phase 3: Workouts & Habits Tracking ✅ (Completed 2026-01-07)
 
 **Goals**: Log workouts with exercise detail, track daily habits.
 
-**Tasks**:
-1. **Database Tables**
-   - Create `workouts`, `exercise_sets`, `habit_logs` tables
-   - Pre-populate exercise names as constants (flat_db_press, curls, etc.)
-   - Create workout templates (Chest & Triceps, Shoulders & Biceps, Volume Day, Cardio)
+**Completed Tasks**:
+1. ✅ **Database Tables**
+   - Created `workouts`, `exercise_sets`, `habit_logs` tables with RLS policies
+   - Defined 12 exercises as constants with 2026 target weights
+   - Created workout templates: Chest & Triceps, Shoulders & Biceps, Volume Day, Cardio, Active Rest
 
-2. **Workout Logging Form**
-   - Create "Log Workout" button in Today dashboard
-   - Modal/page with workout type selector
-   - For each exercise in template:
-     - Show exercise name
-     - Input fields: Set 1-4 (reps, weight)
-     - "Add set" button (up to 6 sets)
-   - Save button: POST to `/api/workouts`
-   - Insert workout + exercise_sets rows
-   - Mark workout as completed for the day
+2. ✅ **Workout Logging Form**
+   - Built WorkoutForm component with dialog interface
+   - Workout type selector with dynamic exercise list
+   - Exercise inputs with set/rep/weight tracking (up to 6 sets per exercise)
+   - POST to `/api/workouts` with full validation
+   - Inserts workout + exercise_sets rows atomically
 
-3. **Workout History Display**
-   - Show last workout logged (exercise, sets, weight)
-   - "View History" link → modal with past 5 workouts
+3. ✅ **Workout History Display**
+   - Created WorkoutHistory component
+   - Shows recent workouts with exercise grouping
+   - Displays max weight per exercise
+   - Supports up to 3 recent workouts
 
-4. **Lifting Progression Chart**
-   - Create LiftingChart component
-   - Line chart per exercise (x: date, y: max weight lifted)
-   - Show monthly milestone markers (e.g., "Target: 50 lbs")
-   - Add to Today dashboard
+4. ✅ **Lifting Progression Chart**
+   - Created LiftingChart component with Recharts line charts
+   - Shows weight progression per exercise with target reference line
+   - LiftingProgress component displays top 3 exercises by activity
+   - Integrated into Today dashboard
 
-5. **Habit Checklist**
-   - Create HabitChecklist component
-   - Checkboxes: Meditation, Journal, Creatine
-   - Auto-populated: Sleep (from Apple Health), Steps (from Apple Health)
-   - POST to `/api/habits` on checkbox change
-   - Show streak counter: "5 day streak! 🔥"
+5. ✅ **Habit Checklist**
+   - Created HabitChecklist component with Meditation, Journal, Creatine checkboxes
+   - Auto-populated Sleep (from Apple Health) and Steps (from Apple Health)
+   - Optimistic UI updates with rollback on error
+   - Streak counter showing consecutive days with habits completed
 
-6. **Habit Heatmap**
-   - Create HabitHeatmap component (7-day calendar grid)
-   - Color intensity = % habits completed (5/5 = dark green, 2/5 = light green)
-   - Show in Today dashboard
+6. ✅ **Habit Heatmap**
+   - Created HabitHeatmap component (7-day calendar grid)
+   - Color intensity based on completion % (0-100%)
+   - Highlights today with ring styling
+   - Shows completion legend
 
-**Deliverable**: Full workout and habit tracking with progression visualization.
+**Files Added**:
+- `src/app/api/workouts/route.ts`
+- `src/app/api/habits/route.ts`
+- `src/components/forms/workout-form.tsx`
+- `src/components/forms/habit-checklist.tsx`
+- `src/components/dashboard/workout-history.tsx`
+- `src/components/dashboard/habit-heatmap.tsx`
+- `src/components/charts/lifting-chart.tsx`
+- `src/lib/constants/workouts.ts`
+- `supabase/migrations/004_workouts_habits_tables.sql`
+
+**Key Implementation Details**:
+- Parallel data fetching in Today dashboard for 6 queries (weight, habits, workouts, steps, sleep)
+- Streak calculation: counts consecutive days with meditation OR journal completed
+- Workout templates with pre-defined exercise lists per workout type
+- Exercise targets for 2026 for progress visualization
+- Two-column layout: habits on left, workout on right
+- Scheduled workout display based on day of week (WEEKLY_SCHEDULE)
+
+**Deliverable**: Full workout and habit tracking with progression visualization integrated into Today dashboard.
 
 ---
 

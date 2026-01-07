@@ -22,9 +22,9 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 
 ## Current Phase
 
-**Phase**: Phase 3 - Workouts & Habits Tracking
+**Phase**: Phase 4 - Multi-Timeframe Views
 **Status**: Ready to Start
-**Previous Phase Completed**: 2026-01-07
+**Previous Phase Completed**: 2026-01-07 (Phase 3 - Workouts & Habits Tracking)
 
 ---
 
@@ -35,7 +35,7 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 | **Brainstorming** | Week 0 (Jan 6, 2026) | ✅ Complete | Comprehensive roadmap with tech stack, database schema, implementation plan |
 | **Phase 1: MVP Setup** | Week 1-2 | ✅ Complete | Deployed app with login, dark mode, weight chart |
 | **Phase 2: Data Import** | Week 2-3 | ✅ Complete | iOS Shortcuts integration for automated Apple Health sync |
-| **Phase 3: Workouts & Habits** | Week 3-4 | 🔜 Next | Exercise tracking, habit checklist, progression charts |
+| **Phase 3: Workouts & Habits** | Week 3-4 | ✅ Complete | Exercise tracking, habit checklist, progression charts |
 | **Phase 4: Multi-Timeframe** | Week 4-5 | ⏸️ Pending | Sidebar navigation, weekly/monthly/quarterly views |
 | **Phase 5: Milestones & Review** | Week 5-6 | ⏸️ Pending | Pre-loaded fitness plan, weekly review dashboard |
 | **Phase 6: Polish** | Week 6+ | ⏸️ Pending | Bug fixes, mobile testing, UX improvements |
@@ -108,6 +108,17 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 - [x] Test iOS Shortcuts integration with live data sync
 - [x] Fixed RLS bypass issue for API key authenticated requests
 - [x] Deployed to production and verified working
+
+### Phase 3: Workouts & Habits Tracking ✅ (Completed 2026-01-07)
+- [x] Create database schema (workouts, exercise_sets, habit_logs tables)
+- [x] Build workout logging form with exercise-level detail (sets/reps/weight)
+- [x] Create workout history display component
+- [x] Build lifting progression charts per exercise with target reference lines
+- [x] Create habit checklist component (meditation, journal, creatine)
+- [x] Implement habit streak counter
+- [x] Build 7-day habit heatmap visualization
+- [x] Integrate all components into Today dashboard
+- [x] Implement parallel data fetching for dashboard performance
 
 ---
 
