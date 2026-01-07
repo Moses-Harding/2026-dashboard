@@ -22,6 +22,7 @@ const navItems: NavItem[] = [
   { href: '/week', label: 'Week', icon: '📈' },
   { href: '/month', label: 'Month', icon: '📅' },
   { href: '/quarter', label: 'Quarter', icon: '🎯' },
+  { href: '/review', label: 'Review', icon: '📝' },
   { href: '/settings', label: 'Settings', icon: '⚙️' },
 ]
 
