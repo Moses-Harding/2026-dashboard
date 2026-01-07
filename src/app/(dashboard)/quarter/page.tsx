@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { StatCard } from '@/components/dashboard/stat-card'
 import { WeightChart } from '@/components/charts/weight-chart'
 import {
+  getNow,
   getQuarter,
   getQuarterStart,
   getQuarterEnd,
@@ -49,7 +50,7 @@ export default async function QuarterPage() {
     return null
   }
 
-  const now = new Date()
+  const now = getNow()
   const quarter = getQuarter(now)
   const quarterStart = getQuarterStart(now)
   const quarterEnd = getQuarterEnd(now)

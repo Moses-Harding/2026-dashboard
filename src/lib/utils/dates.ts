@@ -2,7 +2,18 @@
  * Date Utility Functions
  *
  * Helper functions for date calculations used across dashboard pages.
+ * All functions use US Eastern timezone for consistency.
  */
+
+const TIMEZONE = 'America/New_York'
+
+/**
+ * Get current date in US Eastern timezone
+ */
+export function getNow(): Date {
+  const now = new Date()
+  return new Date(now.toLocaleString('en-US', { timeZone: TIMEZONE }))
+}
 
 /**
  * Get the start of the week (Sunday) for a given date

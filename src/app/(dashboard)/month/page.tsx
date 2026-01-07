@@ -14,6 +14,7 @@ import { StatCard } from '@/components/dashboard/stat-card'
 import { WeightChart } from '@/components/charts/weight-chart'
 import { LiftingProgress } from '@/components/charts/lifting-chart'
 import {
+  getNow,
   getMonthStart,
   getMonthEnd,
   formatDateISO,
@@ -29,7 +30,7 @@ export default async function MonthPage() {
     return null
   }
 
-  const now = new Date()
+  const now = getNow()
   const monthStart = getMonthStart(now)
   const monthEnd = getMonthEnd(now)
   const monthStartStr = formatDateISO(monthStart)

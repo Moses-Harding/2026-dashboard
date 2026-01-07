@@ -15,6 +15,7 @@ import { WeightChart } from '@/components/charts/weight-chart'
 import { HabitHeatmap } from '@/components/dashboard/habit-heatmap'
 import { WorkoutHistory } from '@/components/dashboard/workout-history'
 import {
+  getNow,
   getWeekStart,
   getWeekEnd,
   formatDateISO,
@@ -29,7 +30,7 @@ export default async function WeekPage() {
     return null
   }
 
-  const now = new Date()
+  const now = getNow()
   const weekStart = getWeekStart(now)
   const weekEnd = getWeekEnd(now)
   const weekStartStr = formatDateISO(weekStart)

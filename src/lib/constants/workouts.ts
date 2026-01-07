@@ -55,7 +55,10 @@ export const WEEKLY_SCHEDULE: Record<number, WorkoutType | 'rest'> = {
 }
 
 export function getTodaysWorkout(): WorkoutType | 'rest' {
-  const dayOfWeek = new Date().getDay()
+  // Use US Eastern timezone to ensure correct day regardless of server location
+  const now = new Date()
+  const easternTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }))
+  const dayOfWeek = easternTime.getDay()
   return WEEKLY_SCHEDULE[dayOfWeek]
 }
 

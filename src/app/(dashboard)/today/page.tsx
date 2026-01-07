@@ -24,6 +24,7 @@ import { SyncStatus } from '@/components/dashboard/sync-status'
 import { HabitHeatmap } from '@/components/dashboard/habit-heatmap'
 import { WorkoutHistory } from '@/components/dashboard/workout-history'
 import { getTodaysWorkout, WORKOUT_TYPES } from '@/lib/constants/workouts'
+import { getNow, formatDateISO } from '@/lib/utils/dates'
 import type { WorkoutType } from '@/types/database'
 
 export default async function TodayPage() {
@@ -34,10 +35,12 @@ export default async function TodayPage() {
     return null // Middleware will redirect
   }
 
-  const today = new Date().toISOString().split('T')[0]
-  const thirtyDaysAgo = new Date()
+  // Use timezone-aware dates
+  const now = getNow()
+  const today = formatDateISO(now)
+  const thirtyDaysAgo = new Date(now)
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-  const sevenDaysAgo = new Date()
+  const sevenDaysAgo = new Date(now)
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
   // Fetch all data in parallel
@@ -109,13 +112,13 @@ export default async function TodayPage() {
     ? lastSevenDaysWeight.reduce((sum, log) => sum + log.weight, 0) / lastSevenDaysWeight.length
     : null
 
-  const yesterday = new Date()
+  const yesterday = new Date(now)
   yesterday.setDate(yesterday.getDate() - 1)
-  const yesterdayLog = weightLogs.find((log) => log.date === yesterday.toISOString().split('T')[0])
+  const yesterdayLog = weightLogs.find((log) => log.date === formatDateISO(yesterday))
   const weightChange = currentWeight && yesterdayLog ? currentWeight - yesterdayLog.weight : null
 
   // Get targets
-  const currentMonth = new Date().getMonth() + 1
+  const currentMonth = now.getMonth() + 1
   const monthlyTargets: Record<number, number> = {
     1: 218, 2: 216, 3: 214, 4: 212, 5: 210, 6: 208,
     7: 206, 8: 204, 9: 202, 10: 200, 11: 197, 12: 195,
@@ -145,9 +148,9 @@ export default async function TodayPage() {
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
   for (let i = 0; i < 365; i++) {
-    const checkDate = new Date()
+    const checkDate = new Date(now)
     checkDate.setDate(checkDate.getDate() - i)
-    const checkDateStr = checkDate.toISOString().split('T')[0]
+    const checkDateStr = formatDateISO(checkDate)
     const log = sortedHabits.find((l) => l.date === checkDateStr)
     if (log && (log.meditation || log.journal)) {
       streak++
@@ -159,7 +162,7 @@ export default async function TodayPage() {
   }
 
   // Format today's date
-  const todayFormatted = new Date().toLocaleDateString('en-US', {
+  const todayFormatted = now.toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
