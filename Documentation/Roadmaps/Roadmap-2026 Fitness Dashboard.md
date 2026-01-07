@@ -5,7 +5,7 @@
 **Started**: 2026-01-06
 **Type**: Full Application Roadmap
 **Target Launch**: MVP in 4-6 weeks
-**Current Phase**: Phase 1 - Project Setup & Today Dashboard
+**Current Phase**: Phase 3 - Workouts & Habits Tracking
 
 ---
 
@@ -599,44 +599,51 @@ When this project is complete, you will be able to:
 
 ---
 
-### Phase 2: Apple Health Data Import (Week 2-3)
+### Phase 2: Apple Health Data Import ✅ (Week 2-3) - COMPLETED
 
 **Goals**: Automate data flow from Apple Health to dashboard.
 
-**Tasks**:
-1. **API Endpoint for Health Data**
-   - Create `/api/health-import` POST endpoint
-   - Accept payload: `{type: 'weight' | 'steps' | 'sleep', date: string, value: number, api_key: string}`
-   - Validate API key (stored in env var)
-   - Use Zod schema validation
-   - Upsert into appropriate table (handle duplicates)
-   - Return success/error response
+**Decision**: Replaced Health Auto Export (paid $9.99/month) with iOS Shortcuts (free, built-in).
 
-2. **Health Auto Export Setup**
-   - Download "Health Auto Export" app on iPhone
-   - Configure metrics: weight, steps, sleep hours
-   - Set up automated POST to your API endpoint
-   - Configure API key header
-   - Test: Manually trigger export, verify data appears in Supabase
+**Completed Tasks**:
+1. ✅ **API Endpoint for Health Data** - `/api/health-import` POST endpoint
+   - Accepts payload: `{type: 'weight' | 'steps' | 'sleep' | 'nutrition', date, value, api_key}`
+   - Zod schema validation for all data types
+   - Upserts to appropriate tables (handles duplicates)
 
-3. **Sync Status Indicator**
-   - Add `last_sync` timestamp column to user settings
-   - Update on each successful import
-   - Display in dashboard: "Last synced: 5 min ago"
-   - Show warning if > 6 hours since last sync
+2. ✅ **iOS Shortcuts Integration** - `/api/shortcuts/sync` endpoint
+   - Optimized for iOS Shortcuts (simpler payload format)
+   - Authorization: Bearer token in header
+   - Accepts: weight, steps, sleep, calories, protein, carbs, fat
+   - Date defaults to today if not specified
 
-4. **Nutrition Data Flow** (if LoseIt syncs to Apple Health)
-   - Add nutrition_logs table
-   - Extend `/api/health-import` to accept calories/protein/fiber
-   - Configure Health Auto Export for nutrition metrics
-   - Test: Log meal in LoseIt, verify sync chain
+3. ✅ **API Key Authentication**
+   - Created `api_keys` table with SHA-256 hashed keys
+   - `verify_api_key()` RPC function for secure validation
+   - API key generation with one-time display
 
-5. **Manual Entry Fallback**
-   - Add manual forms for steps, sleep, nutrition
-   - Show "Auto-import pending" if no data today
-   - Allow override of auto-imported values
+4. ✅ **Settings Page**
+   - API key management interface
+   - Generate/view/manage API keys
+   - Step-by-step Shortcuts setup guide with action instructions
+   - Health data import instructions
 
-**Deliverable**: Fully automated data pipeline from Apple Health to dashboard.
+5. ✅ **Sync Status Indicator**
+   - Displays last sync time across all data types
+   - Color-coded status (green: <24h, yellow: 24-48h, red: 48+h)
+   - Shows "Last synced: {timestamp}" on dashboard
+
+6. ✅ **Health Data Tables**
+   - steps_logs (daily step count)
+   - sleep_logs (sleep duration in hours)
+   - nutrition_logs (calories, protein, carbs, fat)
+   - Row Level Security (RLS) on all tables
+
+7. ✅ **Bug Fixes**
+   - Fixed RLS bypass for API key authenticated requests (service role client)
+   - Fixed SQL variable shadowing in verify_api_key function
+
+**Deliverable**: Fully automated, free data pipeline from iPhone to dashboard via iOS Shortcuts.
 
 ---
 

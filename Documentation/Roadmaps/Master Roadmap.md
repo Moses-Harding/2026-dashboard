@@ -1,9 +1,9 @@
 # Master Roadmap - 2026 Fitness Dashboard
 
-**Last Updated**: 2026-01-06
-**Project Status**: Phase 1 Complete - Ready for Phase 2
+**Last Updated**: 2026-01-07
+**Project Status**: Phase 2 Complete - Ready for Phase 3
 **Target MVP Launch**: Week 6 (mid-February 2026)
-**Live URL**: https://2026-dashboard.vercel.app (or your custom Vercel URL)
+**Live URL**: https://2026-dashboard.vercel.app
 
 ---
 
@@ -22,9 +22,9 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 
 ## Current Phase
 
-**Phase**: Phase 2 - Apple Health Data Import
+**Phase**: Phase 3 - Workouts & Habits Tracking
 **Status**: Ready to Start
-**Previous Phase Completed**: 2026-01-06
+**Previous Phase Completed**: 2026-01-07
 
 ---
 
@@ -34,8 +34,8 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 |-------|-----------|--------|-------------|
 | **Brainstorming** | Week 0 (Jan 6, 2026) | ✅ Complete | Comprehensive roadmap with tech stack, database schema, implementation plan |
 | **Phase 1: MVP Setup** | Week 1-2 | ✅ Complete | Deployed app with login, dark mode, weight chart |
-| **Phase 2: Data Import** | Week 2-3 | 🔜 Next | Apple Health auto-import pipeline |
-| **Phase 3: Workouts & Habits** | Week 3-4 | ⏸️ Pending | Exercise tracking, habit checklist, progression charts |
+| **Phase 2: Data Import** | Week 2-3 | ✅ Complete | iOS Shortcuts integration for automated Apple Health sync |
+| **Phase 3: Workouts & Habits** | Week 3-4 | 🔜 Next | Exercise tracking, habit checklist, progression charts |
 | **Phase 4: Multi-Timeframe** | Week 4-5 | ⏸️ Pending | Sidebar navigation, weekly/monthly/quarterly views |
 | **Phase 5: Milestones & Review** | Week 5-6 | ⏸️ Pending | Pre-loaded fitness plan, weekly review dashboard |
 | **Phase 6: Polish** | Week 6+ | ⏸️ Pending | Bug fixes, mobile testing, UX improvements |
@@ -49,7 +49,7 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 - Backend: Next.js API Routes + Supabase (PostgreSQL)
 - Charts: Recharts
 - Hosting: Vercel (frontend) + Supabase (database)
-- Data Import: Health Auto Export app → API endpoint
+- Data Import: iOS Shortcuts (free) → `/api/shortcuts/sync` endpoint
 
 **Design Direction**:
 - Dark mode, minimalist aesthetic (Apple Fitness+ inspired)
@@ -97,6 +97,17 @@ This is the master roadmap for the 2026 Fitness Dashboard web application. Track
 - [x] Build Today Dashboard with weight chart
 - [x] Deploy to Vercel
 - [x] Push code to GitHub
+
+### Phase 2: Apple Health Data Import ✅ (Completed 2026-01-07)
+- [x] Create health data tables (steps_logs, sleep_logs, nutrition_logs)
+- [x] Build API key authentication system with SHA-256 hashing
+- [x] Create `/api/health-import` endpoint with Zod validation
+- [x] Create `/api/shortcuts/sync` endpoint (iOS Shortcuts optimized)
+- [x] Create Settings page with API key management
+- [x] Add sync status indicator to Today dashboard
+- [x] Test iOS Shortcuts integration with live data sync
+- [x] Fixed RLS bypass issue for API key authenticated requests
+- [x] Deployed to production and verified working
 
 ---
 
