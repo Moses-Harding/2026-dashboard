@@ -4,25 +4,20 @@
 
 ---
 
-## 2026-01-07: Apple Health Workout Import
+## 2026-01-07: Simplified Workout Logging
 
-**Summary**: Added workout import support to iOS Shortcuts sync endpoint.
+**Summary**: Simplified workout logging to one-click. Button now logs the scheduled workout type automatically.
 
 **Changes**:
-- Extended `/api/shortcuts/sync` endpoint to accept workout data from Apple Health
-- Added Apple Health workout type mapping (Strength Training → scheduled type, Cardio types → cardio, etc.)
-- Strength training workouts automatically map to scheduled workout type based on day (Mon=Chest, Wed=Shoulders, Fri=Volume)
-- Workout duration and calories stored, original Apple Health type saved in notes
-- Updated Settings page with workout sync instructions
+- Simplified WorkoutForm to a single button that logs the scheduled workout type
+- Removed workout type selection dialog - button text shows "Log Chest & Triceps", "Log Cardio", etc.
+- Removed workout sync from iOS Shortcuts (Apple Health can't access workout data without Toolbox Pro)
+- Cleaned up Settings page instructions
 
 **Files Modified**:
-- `src/app/api/shortcuts/sync/route.ts` - Added workout schema fields, mapping function, and save logic
-- `src/app/(dashboard)/settings/page.tsx` - Added workout sync instructions
-
-**New API Fields**:
-- `workout_type` - Apple Health workout type string (e.g., "Traditional Strength Training")
-- `workout_duration` - Duration in minutes
-- `workout_calories` - Active calories burned
+- `src/components/forms/workout-form.tsx` - Simplified to single button
+- `src/app/api/shortcuts/sync/route.ts` - Removed workout fields
+- `src/app/(dashboard)/settings/page.tsx` - Removed workout sync instructions
 
 **Status**: Feature Complete
 
